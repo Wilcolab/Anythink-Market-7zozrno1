@@ -129,6 +129,30 @@ describe('Arithmetic', function () {
                     done();
                 });
         });
+        it('raises a negative base to an odd integer exponent', function (done) {
+            request.get('/arithmetic?operation=power&operand1=-2&operand2=3')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: -8 });
+                    done();
+                });
+        });
+        it('raises a decimal base to an integer exponent', function (done) {
+            request.get('/arithmetic?operation=power&operand1=1.2&operand2=2')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 1.44 });
+                    done();
+                });
+        });
+        it('supports scientific notation for base and exponent', function (done) {
+            request.get('/arithmetic?operation=power&operand1=1.2e1&operand2=2')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 144 });
+                    done();
+                });
+        });
     });
 
     describe('Multiplication', function () {
